@@ -7,9 +7,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
+        
+        <div className="App-difficulty-parent">
+          <div className='App-difficulty-box'>Easy</div>
+          <div className='App-difficulty-box'>Medium</div>
+          <div className='App-difficulty-box'>Hard</div>
+        </div>
         <a
           className="App-link"
           href="https://reactjs.org"

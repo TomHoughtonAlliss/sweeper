@@ -14,7 +14,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #d3ebeb;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -26,6 +26,24 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.App-difficulty-parent {
+  display: flex;
+}
+
+.App-difficulty-box {
+  background-color: #d3ebeb;
+  color: black;
+  border: 1px solid gray;
+  display: in-line-block;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 @keyframes App-logo-spin {
