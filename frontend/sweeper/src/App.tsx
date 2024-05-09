@@ -8,11 +8,17 @@ function App() {
         Sweeper
       </header>
       <div className="App-difficulty-parent">
-          <div className='App-difficulty-box'>Easy</div>
-          <div className='App-difficulty-box'>Medium</div>
-          <div className='App-difficulty-box'>Hard</div>
-          <div className='App-difficulty-box'>Expert</div>
-        </div>
+        <button className='App-button'>Easy</button>
+        <button className='App-button'>Medium</button>
+        <button className='App-button'>Hard</button>
+        <button className='App-button'>Expert</button>
+      </div>
+      <div className="App-scoreboard">
+        Scoreboard in this Region
+      </div>
+      <div>
+        <button className="App-button">Play</button>
+      </div>
     </div>
   );
 }
