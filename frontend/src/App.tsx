@@ -1,6 +1,7 @@
 import React from "react";
 import Board from "./components/Board";
 import "./App.css";
+import ScoreBoard from "./components/Scoreboard";
 
 function App() {
   return (
@@ -14,11 +15,10 @@ function App() {
         <button className='App-button'>Hard</button>
         <button className='App-button'>Expert</button>
       </div>
-      <div className="App-scoreboard">
+      <ScoreBoard />
+      <button className="App-button">Play</button>
+      <div className="App-board">
         <Board />
-      </div>
-      <div>
-        <button className="App-button">Play</button>
       </div>
     </div>
   );
