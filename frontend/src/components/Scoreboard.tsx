@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker';
 
 function getScore(): string[] {
-    const name: string = faker.person.firstName();;;;;;
-    const time: string = "30s";
+    const name: string = faker.person.firstName();
+    const time: string = String(Math.floor(Math.random() * 100));
     const date: string = "14/02/1994";
 
     const score: string[] = [name, time, date];
@@ -24,8 +24,8 @@ function getScoreBoard(): string[][] {
 export default function ScoreBoard() {
     const scoreBoard: string[][] = getScoreBoard();
     
-    return (<div style={{display: "flex"}}>
-        <table style={{textAlign: "left"}}>
+    return (<div style={{}}>
+        <table style={{marginLeft: "auto", marginRight: "auto", textAlign: "left", border: "1px solid gray"}}>
             <tr>
                 <th>Name</th>
                 <th>Time (seconds)</th>
@@ -34,9 +34,9 @@ export default function ScoreBoard() {
             {scoreBoard.map(
                 (row: string[], yIndex: number) => {
                     return <tr>
-                        <td style={{paddingRight: "10rem"}}>{row[0]}</td>
-                        <td style={{paddingRight: "10rem"}}>{row[1]}</td>
-                        <td style={{paddingRight: "10rem"}}>{row[2]}</td>
+                        <td style={{paddingRight: "10rem", border: "1px solid gray"}}>{row[0]}</td>
+                        <td style={{paddingRight: "10rem", border: "1px solid gray"}}>{row[1]}</td>
+                        <td style={{paddingRight: "10rem", border: "1px solid gray"}}>{row[2]}</td>
                     </tr>
                 }
             )}
