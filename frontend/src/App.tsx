@@ -1,5 +1,5 @@
 import React from "react";
-import Board from "./Board";
+import Board from "./components/Board";
 import "./App.css";
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
         Sweeper
       </header>
       <div className="App-difficulty-parent">
-        <button className='App-button'>Easy</button>
+        <button className='App-button'>Custom</button>
         <button className='App-button'>Medium</button>
         <button className='App-button'>Hard</button>
         <button className='App-button'>Expert</button>
