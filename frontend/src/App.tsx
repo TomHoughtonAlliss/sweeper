@@ -1,4 +1,5 @@
 import React from "react";
+import Board from "./Board";
 import "./App.css";
 
 function App() {
@@ -14,7 +15,7 @@ function App() {
         <button className='App-button'>Expert</button>
       </div>
       <div className="App-scoreboard">
-        Scoreboard in this Region
+        <Board />
       </div>
       <div>
         <button className="App-button">Play</button>
