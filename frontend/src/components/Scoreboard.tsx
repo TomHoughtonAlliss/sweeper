@@ -10,12 +10,24 @@ function getScore(): string[] {
   return score;
 }
 
+function sortRows(rows: string[][]): string[][] {
+
+    rows.sort(
+        (first: string[], second: string[]) => {
+            return Number(first[1]) - Number(second[1])
+    })
+
+    return rows
+}
+
 function getScoreBoard(): string[][] {
-  const scores: string[][] = [];
+  let scores: string[][] = [];
 
   for (let i = 0; i < 10; i++) {
     scores.push(getScore());
   }
+
+  scores = sortRows(scores)
 
   return scores;
 }
