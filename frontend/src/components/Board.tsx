@@ -11,19 +11,77 @@ function getRandomInt(max: number): number {
   return r;
 }
 
+function calculateCellAdjacentMines(
+  x: number,
+  y: number,
+  board: Cell[][]
+): number {
+  let totalMines = 0;
+
+  const coordsToCheck: number[][] = [
+    [x - 1, y - 1],
+    [x, y - 1],
+    [x + 1, y - 1],
+    [x - 1, y],
+    [x + 1, y],
+    [x - 1, y + 1],
+    [x, y + 1],
+    [x + 1, y + 1],
+  ];
+
+  const maxHeight: number = board.length;
+  const maxWidth: number = board[0].length;
+
+  for (let i = 0; i < coordsToCheck.length; i++) {
+    const coords = coordsToCheck[i];
+    const m = coords[0];
+    const n = coords[1];
+    if (!((m < 0 || m >= maxHeight) || (n < 0 || n >= maxWidth))) {
+        let cell = board[n][m];
+
+        if (cell.isMine) {
+        totalMines++;
+        }
+    }
+  }
+
+  return totalMines;
+}
+
+function calculateBoardAdjacentMines(board: Cell[][]): Cell[][] {
+  let newBoard: Cell[][] = [];
+
+  for (let j = 0; j < board.length; j++) {
+    const row = board[j];
+
+    let newRow: Cell[] = [];
+
+    for (let i = 0; i < row.length; i++) {
+      let cell: Cell = row[i];
+
+      cell.adjacentMines = calculateCellAdjacentMines(i, j, board);
+
+      newRow.push(cell);
+    }
+    newBoard.push(newRow);
+  }
+  return newBoard;
+}
+
 function instantiateBoard(
   width: number,
   height: number,
   bombs: number
 ): Cell[][] {
-  const board: Cell[][] = [];
+  let board: Cell[][] = [];
   let bombCoords: number[][] = [];
 
   for (let i = 0; i < bombs; i++) {
     let randX = getRandomInt(width);
     let randY = getRandomInt(height);
 
-    const cellContained = (cell: number[]) => cell[0] === randX && cell[1] === randY
+    const cellContained = (cell: number[]) =>
+      cell[0] === randX && cell[1] === randY;
 
     while (bombCoords.some(cellContained)) {
       randX = getRandomInt(width);
@@ -53,7 +111,9 @@ function instantiateBoard(
     }
     board.push(row);
   }
-  return board
+  board = calculateBoardAdjacentMines(board);
+
+  return board;
 }
 
 export default function Board() {
@@ -82,8 +142,8 @@ export default function Board() {
                     justifyContent: "center",
                     backgroundColor: "#DCDCDC",
                   }}
-                >
-                  {cell.isMine}
+                  >
+                  {cell.isMine ? "X" : (cell.adjacentMines === 0 ? " " : cell.adjacentMines)}
                 </div>
               );
             })}
