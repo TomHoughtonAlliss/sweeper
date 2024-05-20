@@ -43,6 +43,8 @@ export default function ScoreBoard() {
           marginRight: "auto",
           textAlign: "left",
           border: "1px solid gray",
+          backgroundColor: "#646494",
+          color: "white",
         }}
       >
         <tr>
