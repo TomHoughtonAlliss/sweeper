@@ -11,13 +11,11 @@ function getScore(): string[] {
 }
 
 function sortRows(rows: string[][]): string[][] {
+  rows.sort((first: string[], second: string[]) => {
+    return Number(first[1]) - Number(second[1]);
+  });
 
-    rows.sort(
-        (first: string[], second: string[]) => {
-            return Number(first[1]) - Number(second[1])
-    })
-
-    return rows
+  return rows;
 }
 
 function getScoreBoard(): string[][] {
@@ -27,7 +25,7 @@ function getScoreBoard(): string[][] {
     scores.push(getScore());
   }
 
-  scores = sortRows(scores)
+  scores = sortRows(scores);
 
   return scores;
 }
