@@ -2,7 +2,7 @@ import { faker } from "@faker-js/faker";
 
 function getScore(): string[] {
   const name: string = faker.person.firstName();
-  const time: string = String(Math.floor(Math.random() * 100));
+  const time: string = String(Math.floor(Math.random() * 100) + 10);
   const date: string = "14/02/1994";
 
   const score: string[] = [name, time, date];
