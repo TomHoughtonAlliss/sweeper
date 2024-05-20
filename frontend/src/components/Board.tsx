@@ -20,7 +20,11 @@ export default function Board() {
   let board = instantiateBoard(10, 10, 10);
 
   return (
-    <div style={{ display: "inline-flex", paddingTop: 50, paddingBottom: 50 }}>
+    <div style={{ 
+        display: "inline-flex",
+        margin: "2rem",
+        border: "1px solid gray"
+        }}>
       {board.map((row: number[], yIndex: number) => {
         return (
           <div style={{}}>
@@ -28,9 +32,10 @@ export default function Board() {
               return (
                 <div
                   style={{
-                    border: "1px solid gray",
+                    border: "0.5px solid gray",
                     width: "30px",
                     height: "30px",
+                    backgroundColor: "#DCDCDC",
                   }}
                 >
                   {cell}

@@ -37,12 +37,13 @@ export default function ScoreBoard() {
     <div style={{}}>
       <table
         style={{
+          marginTop: "2rem",
+          marginBottom : "2rem",
           marginLeft: "auto",
           marginRight: "auto",
           textAlign: "left",
           border: "1px solid gray",
-          backgroundColor: "#646494",
-          color: "white",
+          backgroundColor: "#DCDCDC",
         }}
       >
         <tr>
