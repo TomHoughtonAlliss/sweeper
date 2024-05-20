@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Cell = {
   revealed: boolean;
   isMine: number;
@@ -36,12 +38,12 @@ function calculateCellAdjacentMines(
     const coords = coordsToCheck[i];
     const m = coords[0];
     const n = coords[1];
-    if (!((m < 0 || m >= maxHeight) || (n < 0 || n >= maxWidth))) {
-        let cell = board[n][m];
+    if (!(m < 0 || m >= maxWidth || n < 0 || n >= maxHeight)) {
+      let cell = board[n][m];
 
-        if (cell.isMine) {
+      if (cell.isMine) {
         totalMines++;
-        }
+      }
     }
   }
 
@@ -117,7 +119,50 @@ function instantiateBoard(
 }
 
 export default function Board() {
-  let board = instantiateBoard(10, 10, 10);
+
+  let initialBoard = instantiateBoard(25, 25, 50);
+  const [board, setBoard] = useState<Cell[][]>(initialBoard);
+
+  function revealCell(x: number, y: number, board: Cell[][]) {
+    let newBoard = [...board];
+
+    newBoard[y][x].revealed = true;
+    const coordsToCheck: number[][] = [
+      [x - 1, y - 1],
+      [x, y - 1],
+      [x + 1, y - 1],
+      [x - 1, y],
+      [x + 1, y],
+      [x - 1, y + 1],
+      [x, y + 1],
+      [x + 1, y + 1],
+    ];
+
+    const maxHeight = board.length;
+    const maxWidth = board[0].length;
+    if (board[y][x].adjacentMines === 0) {
+      for (let i = 0; i < coordsToCheck.length; i++) {
+        const coords = coordsToCheck[i];
+        const x = coords[0];
+        const y = coords[1];
+
+        if (!(x < 0 || x >= maxWidth || y < 0 || y >= maxHeight)) {
+          if (!board[y][x].revealed) {
+            revealCell(x, y, board);
+          }
+        }
+      }
+    }
+
+    setBoard(newBoard);
+  }
+  function flagCell(x: number, y: number, board: Cell[][]) {
+    let newBoard = [...board];
+
+    newBoard[y][x].isFlagged = !newBoard[y][x].isFlagged;
+
+    setBoard(newBoard);
+  }
 
   return (
     <div
@@ -129,23 +174,88 @@ export default function Board() {
     >
       {board.map((row: Cell[], yIndex: number) => {
         return (
-          <div style={{}}>
+          <div
+            style={{}}
+            onContextMenu={(event) => {
+              event.preventDefault();
+            }}
+          >
             {row.map((cell: Cell, xIndex: number) => {
-              return (
-                <div
-                  style={{
-                    border: "0.5px solid gray",
-                    width: "30px",
-                    height: "30px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#DCDCDC",
-                  }}
+              if (cell.revealed) {
+                if (cell.isMine) {
+                  return (
+                    <div
+                      style={{
+                        border: "0.5px solid gray",
+                        width: "30px",
+                        height: "30px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#B0B0B0",
+                        fontSize: "25px",
+                        color: "red",
+                      }}
+                    >
+                      ⦿
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div
+                      style={{
+                        border: "0.5px solid gray",
+                        width: "30px",
+                        height: "30px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#B0B0B0",
+                      }}
+                      onClick={() => revealCell(xIndex, yIndex, board)}
+                      onContextMenu={() => flagCell(xIndex, yIndex, board)}
+                    >
+                      {cell.adjacentMines === 0 ? " " : cell.adjacentMines}
+                    </div>
+                  );
+                }
+              } else if (cell.isFlagged) {
+                return (
+                  <div
+                    style={{
+                      border: "0.5px solid gray",
+                      width: "30px",
+                      height: "30px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#DCDCDC",
+                      color: "red",
+                      fontWeight: "1000",
+                    }}
+                    onClick={() => revealCell(xIndex, yIndex, board)}
+                    onContextMenu={() => flagCell(xIndex, yIndex, board)}
                   >
-                  {cell.isMine ? "X" : (cell.adjacentMines === 0 ? " " : cell.adjacentMines)}
-                </div>
-              );
+                    ⚑
+                  </div>
+                );
+              } else {
+                return (
+                  <div
+                    style={{
+                      border: "0.5px solid gray",
+                      width: "30px",
+                      height: "30px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#DCDCDC",
+                    }}
+                    onClick={() => revealCell(xIndex, yIndex, board)}
+                    onContextMenu={() => flagCell(xIndex, yIndex, board)}
+                  ></div>
+                );
+              }
             })}
           </div>
         );
