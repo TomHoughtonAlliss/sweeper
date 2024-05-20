@@ -20,7 +20,7 @@ function instantiateBoard(
         isMine: false,
         isFlagged: false,
         adjacentMines: 0,
-      }
+      };
       row.push(cell);
     }
     board.push(row);
