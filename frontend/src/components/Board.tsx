@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Cell = {
   revealed: boolean;
@@ -118,10 +118,22 @@ function instantiateBoard(
   return board;
 }
 
-export default function Board() {
+interface BoardProps {
+    width: number;
+    height: number;
+    numberOfBombs: number;
+}
 
-  let initialBoard = instantiateBoard(25, 25, 50);
+export default function Board({width, height, numberOfBombs}: BoardProps) {
+
+  let initialBoard = instantiateBoard(width, height, numberOfBombs);
   const [board, setBoard] = useState<Cell[][]>(initialBoard);
+
+  useEffect(() => {
+    // Generate the board here
+    const newBoard = instantiateBoard(width, height, numberOfBombs);
+    setBoard(newBoard);
+  }, [width, height, numberOfBombs]);
 
   function revealCell(x: number, y: number, board: Cell[][]) {
     let newBoard = [...board];
