@@ -33,9 +33,9 @@ function instantiateBoard(
     bombCoords.push([randX, randY]);
   }
 
-  for (let i = 0; i < height; i++) {
+  for (let j = 0; j < height; j++) {
     const row: Cell[] = [];
-    for (let j = 0; j < width; j++) {
+    for (let i = 0; i < width; i++) {
       let cell: Cell = {
         revealed: false,
         isMine: 0,
