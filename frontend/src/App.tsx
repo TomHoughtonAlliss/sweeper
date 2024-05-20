@@ -47,7 +47,7 @@ function App() {
         </button>
         <button
           className="App-button"
-          onClick={() => changeDimensions(30, 16, 99)}
+          onClick={() => changeDimensions(16, 30, 99)}
         >
           Expert
         </button>
