@@ -1,11 +1,15 @@
-import { randomInt } from "crypto";
-
 type Cell = {
   revealed: boolean;
-  isMine: boolean;
+  isMine: number;
   isFlagged: boolean;
   adjacentMines: number;
 };
+
+function getRandomInt(max: number): number {
+  let r = Math.floor(Math.random() * max);
+
+  return r;
+}
 
 function instantiateBoard(
   width: number,
@@ -16,12 +20,14 @@ function instantiateBoard(
   let bombCoords: number[][] = [];
 
   for (let i = 0; i < bombs; i++) {
-    let randX = randomInt(width);
-    let randY = randomInt(height);
+    let randX = getRandomInt(width);
+    let randY = getRandomInt(height);
 
-    while (Array.prototype.includes([randX, randY])) {
-      randX = randomInt(width);
-      randY = randomInt(height);
+    const cellContained = (cell: number[]) => cell[0] === randX && cell[1] === randY
+
+    while (bombCoords.some(cellContained)) {
+      randX = getRandomInt(width);
+      randY = getRandomInt(height);
     }
 
     bombCoords.push([randX, randY]);
@@ -32,21 +38,22 @@ function instantiateBoard(
     for (let j = 0; j < width; j++) {
       let cell: Cell = {
         revealed: false,
-        isMine: false,
+        isMine: 0,
         isFlagged: false,
         adjacentMines: 0,
       };
 
-      if (Array.prototype.includes([j, i])) {
-        cell.isMine = true;
+      const cellContains = (cell: number[]) => cell[0] === i && cell[1] === j;
+
+      if (bombCoords.some(cellContains)) {
+        cell.isMine = 1;
       }
 
       row.push(cell);
     }
     board.push(row);
   }
-
-  return board;
+  return board
 }
 
 export default function Board() {
@@ -76,7 +83,7 @@ export default function Board() {
                     backgroundColor: "#DCDCDC",
                   }}
                 >
-                  {cell.adjacentMines}
+                  {cell.isMine}
                 </div>
               );
             })}
