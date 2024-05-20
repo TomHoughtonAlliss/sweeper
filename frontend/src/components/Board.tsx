@@ -35,6 +35,9 @@ export default function Board() {
                     border: "0.5px solid gray",
                     width: "30px",
                     height: "30px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     backgroundColor: "#DCDCDC",
                   }}
                 >
