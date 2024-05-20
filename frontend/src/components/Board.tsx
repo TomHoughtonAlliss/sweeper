@@ -1,3 +1,5 @@
+import { randomInt } from "crypto";
+
 type Cell = {
   revealed: boolean;
   isMine: boolean;
@@ -11,6 +13,19 @@ function instantiateBoard(
   bombs: number
 ): Cell[][] {
   const board: Cell[][] = [];
+  let bombCoords: number[][] = [];
+
+  for (let i = 0; i < bombs; i++) {
+    let randX = randomInt(width);
+    let randY = randomInt(height);
+
+    while (Array.prototype.includes([randX, randY])) {
+      randX = randomInt(width);
+      randY = randomInt(height);
+    }
+
+    bombCoords.push([randX, randY]);
+  }
 
   for (let i = 0; i < height; i++) {
     const row: Cell[] = [];
@@ -21,6 +36,11 @@ function instantiateBoard(
         isFlagged: false,
         adjacentMines: 0,
       };
+
+      if (Array.prototype.includes([j, i])) {
+        cell.isMine = true;
+      }
+
       row.push(cell);
     }
     board.push(row);
