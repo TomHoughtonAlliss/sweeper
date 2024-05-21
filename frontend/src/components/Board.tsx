@@ -118,16 +118,52 @@ function instantiateBoard(
   return board;
 }
 
-interface BoardProps {
-    width: number;
-    height: number;
-    numberOfBombs: number;
+function revealAllMines(board: Cell[][]): Cell[][] {
+  let newBoard: Cell[][] = [];
+  for (let j = 0; j < board.length; j++) {
+    const row: Cell[] = board[j];
+    let newRow: Cell[] = [];
+    for (let i = 0; i < row.length; i++) {
+      let cell: Cell = row[i];
+
+      if (cell.isMine) {
+        cell.revealed = true;
+      }
+
+      newRow.push(cell);
+    }
+    newBoard.push(newRow);
+  }
+  return newBoard;
 }
 
-export default function Board({width, height, numberOfBombs}: BoardProps) {
+function gameWon(board: Cell[][]): boolean {
+  for (let j = 0; j < board.length; j++) {
+    let row = board[j];
+    for (let i = 0; i < row.length; i++) {
+      let cell = row[i];
 
+      if (
+        !((cell.isMine && cell.isFlagged) || (!cell.isMine && cell.revealed))
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
+interface BoardProps {
+  width: number;
+  height: number;
+  numberOfBombs: number;
+}
+
+export default function Board({ width, height, numberOfBombs }: BoardProps) {
   let initialBoard = instantiateBoard(width, height, numberOfBombs);
   const [board, setBoard] = useState<Cell[][]>(initialBoard);
+  const [gameFinished, setGameFinished] = useState<boolean>(false);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   useEffect(() => {
     // Generate the board here
@@ -139,6 +175,16 @@ export default function Board({width, height, numberOfBombs}: BoardProps) {
     let newBoard = [...board];
 
     newBoard[y][x].revealed = true;
+
+    if (gameWon(newBoard)) {
+      setGameFinished(true);
+    }
+
+    if (board[y][x].isMine) {
+      newBoard = revealAllMines(newBoard);
+      setGameOver(true);
+    }
+
     const coordsToCheck: number[][] = [
       [x - 1, y - 1],
       [x, y - 1],
@@ -241,7 +287,7 @@ export default function Board({width, height, numberOfBombs}: BoardProps) {
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      backgroundColor: "#DCDCDC",
+                      backgroundColor: gameFinished ? "green" : "DCDCDC",
                       color: "red",
                       fontWeight: "1000",
                     }}
