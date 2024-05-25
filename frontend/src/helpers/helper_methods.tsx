@@ -4,18 +4,36 @@ export function getRandomInt(max: number): number {
   return r;
 }
 
-export type Cell = {
+export type CellType = {
   revealed: boolean;
   isMine: number;
   isFlagged: boolean;
   adjacentMines: number;
 };
 
+function revealAllMines(board: CellType[][]): CellType[][] {
+  let newBoard: CellType[][] = [];
+  for (let j = 0; j < board.length; j++) {
+    const row: CellType[] = board[j];
+    let newRow: CellType[] = [];
+    for (let i = 0; i < row.length; i++) {
+      let cell: CellType = row[i];
+
+      if (cell.isMine) {
+        cell.revealed = true;
+      }
+
+      newRow.push(cell);
+    }
+    newBoard.push(newRow);
+  }
+  return newBoard;
+}
 
 export function calculateCellAdjacentMines(
   x: number,
   y: number,
-  board: Cell[][]
+  board: CellType[][]
 ): number {
   let totalMines = 0;
 
@@ -49,16 +67,16 @@ export function calculateCellAdjacentMines(
   return totalMines;
 }
 
-export function calculateBoardAdjacentMines(board: Cell[][]): Cell[][] {
-  let newBoard: Cell[][] = [];
+export function calculateBoardAdjacentMines(board: CellType[][]): CellType[][] {
+  let newBoard: CellType[][] = [];
 
   for (let j = 0; j < board.length; j++) {
     const row = board[j];
 
-    let newRow: Cell[] = [];
+    let newRow: CellType[] = [];
 
     for (let i = 0; i < row.length; i++) {
-      let cell: Cell = row[i];
+      let cell: CellType = row[i];
 
       cell.adjacentMines = calculateCellAdjacentMines(i, j, board);
 
@@ -67,4 +85,68 @@ export function calculateBoardAdjacentMines(board: Cell[][]): Cell[][] {
     newBoard.push(newRow);
   }
   return newBoard;
+}
+
+export function instantiateBoard(
+  width: number,
+  height: number,
+  bombs: number
+): CellType[][] {
+  let board: CellType[][] = [];
+  let bombCoords: number[][] = [];
+
+  for (let i = 0; i < bombs; i++) {
+    let randX = getRandomInt(width);
+    let randY = getRandomInt(height);
+
+    const cellContained = (cell: number[]) =>
+      cell[0] === randX && cell[1] === randY;
+
+    while (bombCoords.some(cellContained)) {
+      randX = getRandomInt(width);
+      randY = getRandomInt(height);
+    }
+
+    bombCoords.push([randX, randY]);
+  }
+
+  for (let j = 0; j < height; j++) {
+    const row: CellType[] = [];
+    for (let i = 0; i < width; i++) {
+      let cell: CellType = {
+        revealed: false,
+        isMine: 0,
+        isFlagged: false,
+        adjacentMines: 0,
+      };
+
+      const cellContains = (cell: number[]) => cell[0] === i && cell[1] === j;
+
+      if (bombCoords.some(cellContains)) {
+        cell.isMine = 1;
+      }
+
+      row.push(cell);
+    }
+    board.push(row);
+  }
+  board = calculateBoardAdjacentMines(board);
+
+  return board;
+}
+
+export function gameWon(board: CellType[][]): boolean {
+  for (let j = 0; j < board.length; j++) {
+    let row = board[j];
+    for (let i = 0; i < row.length; i++) {
+      let cell = row[i];
+
+      if (
+        !((cell.isMine && cell.isFlagged) || (!cell.isMine && cell.revealed))
+      ) {
+        return false;
+      }
+    }
+  }
+  return true;
 }

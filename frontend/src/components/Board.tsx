@@ -1,254 +1,124 @@
 import { useEffect, useState } from "react";
-import { calculateBoardAdjacentMines, getRandomInt, Cell } from "../helpers/helper_methods";
+import { instantiateBoard, calculateBoardAdjacentMines, getRandomInt, CellType } from "../helpers/helper_methods";
+import Cell from "./Cell"
 
-function instantiateBoard(
-  width: number,
-  height: number,
-  bombs: number
-): Cell[][] {
-  let board: Cell[][] = [];
-  let bombCoords: number[][] = [];
+function leftClickCell(
+  x: number,
+  y: number,
+  board: CellType[][],
+  setBoard: (board: CellType[][]) => void,
+) {
+  console.log("left click cell");
+  let newBoard = [...board];
 
-  for (let i = 0; i < bombs; i++) {
-    let randX = getRandomInt(width);
-    let randY = getRandomInt(height);
+  const coordsToCheck: number[][] = [
+    [x - 1, y - 1],
+    [x, y - 1],
+    [x + 1, y - 1],
+    [x - 1, y],
+    [x + 1, y],
+    [x - 1, y + 1],
+    [x, y + 1],
+    [x + 1, y + 1],
+  ];
 
-    const cellContained = (cell: number[]) =>
-      cell[0] === randX && cell[1] === randY;
+  newBoard[y][x].revealed = true;
+  if (newBoard[y][x].adjacentMines == 0) {
 
-    while (bombCoords.some(cellContained)) {
-      randX = getRandomInt(width);
-      randY = getRandomInt(height);
-    }
+    for (let i = 0; i < coordsToCheck.length; i++) {
+      const m = coordsToCheck[i][0];
+      const n = coordsToCheck[i][1];
 
-    bombCoords.push([randX, randY]);
-  }
-
-  for (let j = 0; j < height; j++) {
-    const row: Cell[] = [];
-    for (let i = 0; i < width; i++) {
-      let cell: Cell = {
-        revealed: false,
-        isMine: 0,
-        isFlagged: false,
-        adjacentMines: 0,
-      };
-
-      const cellContains = (cell: number[]) => cell[0] === i && cell[1] === j;
-
-      if (bombCoords.some(cellContains)) {
-        cell.isMine = 1;
-      }
-
-      row.push(cell);
-    }
-    board.push(row);
-  }
-  board = calculateBoardAdjacentMines(board);
-
-  return board;
-}
-
-function revealAllMines(board: Cell[][]): Cell[][] {
-  let newBoard: Cell[][] = [];
-  for (let j = 0; j < board.length; j++) {
-    const row: Cell[] = board[j];
-    let newRow: Cell[] = [];
-    for (let i = 0; i < row.length; i++) {
-      let cell: Cell = row[i];
-
-      if (cell.isMine) {
-        cell.revealed = true;
-      }
-
-      newRow.push(cell);
-    }
-    newBoard.push(newRow);
-  }
-  return newBoard;
-}
-
-function gameWon(board: Cell[][]): boolean {
-  for (let j = 0; j < board.length; j++) {
-    let row = board[j];
-    for (let i = 0; i < row.length; i++) {
-      let cell = row[i];
-
-      if (
-        !((cell.isMine && cell.isFlagged) || (!cell.isMine && cell.revealed))
-      ) {
-        return false;
-      }
-    }
-  }
-  return true;
-}
-
-interface BoardProps {
-  width: number;
-  height: number;
-  numberOfBombs: number;
-}
-
-export default function Board({ width, height, numberOfBombs }: BoardProps) {
-  let initialBoard = instantiateBoard(width, height, numberOfBombs);
-  const [board, setBoard] = useState<Cell[][]>(initialBoard);
-  const [gameFinished, setGameFinished] = useState<boolean>(false);
-  const [gameOver, setGameOver] = useState<boolean>(false);
-
-  useEffect(() => {
-    // Generate the board here
-    const newBoard = instantiateBoard(width, height, numberOfBombs);
-    setBoard(newBoard);
-  }, [width, height, numberOfBombs]);
-
-  function revealCell(x: number, y: number, board: Cell[][]) {
-    let newBoard = [...board];
-
-    newBoard[y][x].revealed = true;
-
-    if (gameWon(newBoard)) {
-      setGameFinished(true);
-    }
-
-    if (board[y][x].isMine) {
-      newBoard = revealAllMines(newBoard);
-      setGameOver(true);
-    }
-
-    const coordsToCheck: number[][] = [
-      [x - 1, y - 1],
-      [x, y - 1],
-      [x + 1, y - 1],
-      [x - 1, y],
-      [x + 1, y],
-      [x - 1, y + 1],
-      [x, y + 1],
-      [x + 1, y + 1],
-    ];
-
-    const maxHeight = board.length;
-    const maxWidth = board[0].length;
-    if (board[y][x].adjacentMines === 0) {
-      for (let i = 0; i < coordsToCheck.length; i++) {
-        const coords = coordsToCheck[i];
-        const x = coords[0];
-        const y = coords[1];
-
-        if (!(x < 0 || x >= maxWidth || y < 0 || y >= maxHeight)) {
-          if (!board[y][x].revealed) {
-            revealCell(x, y, board);
-          }
+      if ((0 <= m && m < board[0].length) && (0 <= n && n < board.length)) {
+        if (!board[n][m].revealed) {
+          console.log(m, n);
+          leftClickCell(m, n, newBoard, setBoard);
         }
       }
     }
 
-    setBoard(newBoard);
   }
-  function flagCell(x: number, y: number, board: Cell[][]) {
-    let newBoard = [...board];
+  setBoard(newBoard);
+}
 
-    newBoard[y][x].isFlagged = !newBoard[y][x].isFlagged;
+function rightClickCell(
+  xIndex: number,
+  yIndex: number,
+  board: CellType[][],
+  setBoard: (board: CellType[][]) => void,) {
+  console.log("right click cell");
+  let newBoard = [...board];
 
-    setBoard(newBoard);
-  }
+  newBoard[yIndex][xIndex].isFlagged = !newBoard[yIndex][xIndex].isFlagged;
+
+  setBoard(newBoard);
+}
+
+export default function Board(
+  {
+    width,
+    height,
+    numberOfBombs,
+    gameWon,
+    gameLost,
+    setGameWon,
+    setGameLost,
+  }: {
+    width: number;
+    height: number;
+    numberOfBombs: number;
+    gameWon: boolean;
+    gameLost: boolean;
+    setGameWon: (gameWon: boolean) => void;
+    setGameLost: (gameLost: boolean) => void;
+  }) {
+
+  const [board, setBoard] = useState<CellType[][]>([]);
+
+  useEffect(() => {
+    let initialBoard = instantiateBoard(width, height, numberOfBombs);
+    setBoard(initialBoard);
+  }, [width, height, numberOfBombs]);
+
 
   return (
     <div
       style={{
-        display: "inline-flex",
+        display: "flex",
         margin: "2rem",
         border: "1px solid gray",
       }}
     >
-      {board.map((row: Cell[], yIndex: number) => {
-        return (
-          <div
-            style={{}}
-            onContextMenu={(event) => {
-              event.preventDefault();
-            }}
-          >
-            {row.map((cell: Cell, xIndex: number) => {
-              if (cell.revealed) {
-                if (cell.isMine) {
+      {
+        board.map((row, j) => {
+          return (
+            <div
+              style={{}}
+              onContextMenu={(event) => {
+                event.preventDefault();
+              }}
+            >
+              {
+                row.map((cell, i) => {
                   return (
-                    <div
-                      style={{
-                        border: "0.5px solid gray",
-                        width: "30px",
-                        height: "30px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#B0B0B0",
-                        fontSize: "25px",
-                        color: "red",
-                      }}
-                    >
-                      ⦿
-                    </div>
-                  );
-                } else {
-                  return (
-                    <div
-                      style={{
-                        border: "0.5px solid gray",
-                        width: "30px",
-                        height: "30px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#B0B0B0",
-                      }}
-                      onClick={() => revealCell(xIndex, yIndex, board)}
-                      onContextMenu={() => flagCell(xIndex, yIndex, board)}
-                    >
-                      {cell.adjacentMines === 0 ? " " : cell.adjacentMines}
-                    </div>
-                  );
-                }
-              } else if (cell.isFlagged) {
-                return (
-                  <div
-                    style={{
-                      border: "0.5px solid gray",
-                      width: "30px",
-                      height: "30px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: gameFinished ? "green" : "DCDCDC",
-                      color: "red",
-                      fontWeight: "1000",
-                    }}
-                    onClick={() => revealCell(xIndex, yIndex, board)}
-                    onContextMenu={() => flagCell(xIndex, yIndex, board)}
-                  >
-                    ⚑
-                  </div>
-                );
-              } else {
-                return (
-                  <div
-                    style={{
-                      border: "0.5px solid gray",
-                      width: "30px",
-                      height: "30px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "#DCDCDC",
-                    }}
-                    onClick={() => revealCell(xIndex, yIndex, board)}
-                    onContextMenu={() => flagCell(xIndex, yIndex, board)}
-                  ></div>
-                );
+                    <Cell
+                      cell={cell}
+                      xIndex={i}
+                      yIndex={j}
+                      board={board}
+                      setBoard={setBoard}
+                      gameWon={gameWon}
+                      gameLost={gameLost}
+                      onClick={() => leftClickCell(i, j, board, setBoard)}
+                      onContextMenu={() => rightClickCell(i, j, board, setBoard)}
+                    />
+                  )
+                })
               }
-            })}
-          </div>
-        );
-      })}
+            </div>
+          );
+        })
+      }
     </div>
   );
 }
