@@ -1,5 +1,5 @@
 export function getRandomInt(max: number): number {
-  let r = Math.floor(Math.random() * max);
+  const r = Math.floor(Math.random() * max);
 
   return r;
 }
@@ -12,12 +12,12 @@ export type CellType = {
 };
 
 function revealAllMines(board: CellType[][]): CellType[][] {
-  let newBoard: CellType[][] = [];
+  const newBoard: CellType[][] = [];
   for (let j = 0; j < board.length; j++) {
     const row: CellType[] = board[j];
-    let newRow: CellType[] = [];
+    const newRow: CellType[] = [];
     for (let i = 0; i < row.length; i++) {
-      let cell: CellType = row[i];
+      const cell: CellType = row[i];
 
       if (cell.isMine) {
         cell.revealed = true;
@@ -56,7 +56,7 @@ export function calculateCellAdjacentMines(
     const m = coords[0];
     const n = coords[1];
     if (!(m < 0 || m >= maxWidth || n < 0 || n >= maxHeight)) {
-      let cell = board[n][m];
+      const cell = board[n][m];
 
       if (cell.isMine) {
         totalMines++;
@@ -68,15 +68,15 @@ export function calculateCellAdjacentMines(
 }
 
 export function calculateBoardAdjacentMines(board: CellType[][]): CellType[][] {
-  let newBoard: CellType[][] = [];
+  const newBoard: CellType[][] = [];
 
   for (let j = 0; j < board.length; j++) {
     const row = board[j];
 
-    let newRow: CellType[] = [];
+    const newRow: CellType[] = [];
 
     for (let i = 0; i < row.length; i++) {
-      let cell: CellType = row[i];
+      const cell: CellType = row[i];
 
       cell.adjacentMines = calculateCellAdjacentMines(i, j, board);
 
@@ -93,7 +93,7 @@ export function instantiateBoard(
   bombs: number
 ): CellType[][] {
   let board: CellType[][] = [];
-  let bombCoords: number[][] = [];
+  const bombCoords: number[][] = [];
 
   for (let i = 0; i < bombs; i++) {
     let randX = getRandomInt(width);
@@ -113,7 +113,7 @@ export function instantiateBoard(
   for (let j = 0; j < height; j++) {
     const row: CellType[] = [];
     for (let i = 0; i < width; i++) {
-      let cell: CellType = {
+      const cell: CellType = {
         revealed: false,
         isMine: 0,
         isFlagged: false,
@@ -137,9 +137,9 @@ export function instantiateBoard(
 
 export function gameWon(board: CellType[][]): boolean {
   for (let j = 0; j < board.length; j++) {
-    let row = board[j];
+    const row = board[j];
     for (let i = 0; i < row.length; i++) {
-      let cell = row[i];
+      const cell = row[i];
 
       if (
         !((cell.isMine && cell.isFlagged) || (!cell.isMine && cell.revealed))
