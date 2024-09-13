@@ -3,7 +3,7 @@ import type { CellType } from "../helpers/helper_methods"
 function getStyleAndIcon(cell: CellType, gameWon: boolean) {
   if (cell.revealed) {
     if (cell.isMine) {
-      let cellStyle = {
+      const cellStyle = {
         border: "0.5px solid gray",
         width: "30px",
         height: "30px",
@@ -14,55 +14,53 @@ function getStyleAndIcon(cell: CellType, gameWon: boolean) {
         fontSize: "25px",
         color: "red",
       };
-      let cellIcon = "⦿";
+      const cellIcon = "⦿";
 
       return { cellStyle, cellIcon };
 
-    } else {
-      let cellStyle = {
-        border: "0.5px solid gray",
-        width: "30px",
-        height: "30px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#B0B0B0",
-      }
-      let cellIcon = cell.adjacentMines === 0 ? " " : cell.adjacentMines;
-
-      return { cellStyle, cellIcon };
     }
-  } else {
-    if (cell.isFlagged) {
-      let cellStyle = {
-        border: "0.5px solid gray",
-        width: "30px",
-        height: "30px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: gameWon ? "green" : "DCDCDC",
-        color: "red",
-        fontWeight: "1000",
-      }
-      let cellIcon = "⚑";
-
-      return { cellStyle, cellIcon };
-    } else {
-      let cellStyle = {
-        border: "0.5px solid gray",
-        width: "30px",
-        height: "30px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#DCDCDC",
-      }
-      let cellIcon = " ";
-
-      return { cellStyle, cellIcon };
+    const cellStyle = {
+      border: "0.5px solid gray",
+      width: "30px",
+      height: "30px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "#B0B0B0",
     }
+    const cellIcon = cell.adjacentMines === 0 ? " " : cell.adjacentMines;
+
+    return { cellStyle, cellIcon };
+
   }
+  if (cell.isFlagged) {
+    const cellStyle = {
+      border: "0.5px solid gray",
+      width: "30px",
+      height: "30px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: gameWon ? "green" : "DCDCDC",
+      color: "red",
+      fontWeight: "1000",
+    }
+    const cellIcon = "⚑";
+
+    return { cellStyle, cellIcon };
+  }
+  const cellStyle = {
+    border: "0.5px solid gray",
+    width: "30px",
+    height: "30px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#DCDCDC",
+  }
+  const cellIcon = " ";
+
+  return { cellStyle, cellIcon };
 }
 
 export default function Cell(
