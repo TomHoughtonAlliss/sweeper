@@ -24,6 +24,7 @@ export default function Game() {
         setNumberOfBombs={setNumberOfBombs}
       />
       <button
+        type="button"
         onClick={handlePlayClick}
         style={{
           display: "flex",
