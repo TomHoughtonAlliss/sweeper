@@ -31,22 +31,31 @@ export default function Difficulty(
         justifyContent: "center",
       }}
     >
-      <button>Custom</button>
       <button
+        type="button"
+      >Custom</button>
+
+      <button
+        type="button"
         onClick={() => changeDimensions(8, 8, 10, setWidth, setHeight, setNumberOfBombs)}
       >
         Beginner
       </button>
+
       <button
+        type="button"
         onClick={() => changeDimensions(16, 16, 40, setWidth, setHeight, setNumberOfBombs)}
       >
         Intermediate
       </button>
+
       <button
+        type="button"
         onClick={() => changeDimensions(16, 30, 40, setWidth, setHeight, setNumberOfBombs)}
       >
         Expert
       </button>
+      
     </div>
   );
 }
