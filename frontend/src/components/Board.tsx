@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { instantiateBoard, calculateBoardAdjacentMines, getRandomInt, CellType } from "../helpers/helper_methods";
+import { instantiateBoard, CellType } from "../helpers/helper_methods";
 import Cell from "./Cell"
 
 function leftClickCell(
@@ -9,7 +9,7 @@ function leftClickCell(
   setBoard: (board: CellType[][]) => void,
 ) {
   console.log("left click cell");
-  let newBoard = [...board];
+  const newBoard = [...board];
 
   const coordsToCheck: number[][] = [
     [x - 1, y - 1],
@@ -23,7 +23,7 @@ function leftClickCell(
   ];
 
   newBoard[y][x].revealed = true;
-  if (newBoard[y][x].adjacentMines == 0) {
+  if (newBoard[y][x].adjacentMines === 0) {
 
     for (let i = 0; i < coordsToCheck.length; i++) {
       const m = coordsToCheck[i][0];
@@ -47,7 +47,7 @@ function rightClickCell(
   board: CellType[][],
   setBoard: (board: CellType[][]) => void,) {
   console.log("right click cell");
-  let newBoard = [...board];
+  const newBoard = [...board];
 
   newBoard[yIndex][xIndex].isFlagged = !newBoard[yIndex][xIndex].isFlagged;
 
@@ -76,7 +76,7 @@ export default function Board(
   const [board, setBoard] = useState<CellType[][]>([]);
 
   useEffect(() => {
-    let initialBoard = instantiateBoard(width, height, numberOfBombs);
+    const initialBoard = instantiateBoard(width, height, numberOfBombs);
     setBoard(initialBoard);
   }, [width, height, numberOfBombs]);
 
@@ -94,6 +94,7 @@ export default function Board(
           return (
             <div
               style={{}}
+              key={"what the flip"}
               onContextMenu={(event) => {
                 event.preventDefault();
               }}
@@ -102,6 +103,7 @@ export default function Board(
                 row.map((cell, i) => {
                   return (
                     <Cell
+                      key={"what the other flip"}
                       cell={cell}
                       xIndex={i}
                       yIndex={j}
