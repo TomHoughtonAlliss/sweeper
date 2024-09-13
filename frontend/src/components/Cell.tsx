@@ -85,9 +85,9 @@ export default function Cell(
     onClick: (x: number, y: number, board: CellType[][], setBoard: (board: CellType[][]) => void) => void;
     onContextMenu: (x: number, y: number, board: CellType[][], setBoard: (board: CellType[][]) => void) => void;
   }) {
-  let cellConditions = getStyleAndIcon(cell, gameWon);
-  let cellStyle = cellConditions.cellStyle;
-  let cellIcon = cellConditions.cellIcon;
+  const cellConditions = getStyleAndIcon(cell, gameWon);
+  const cellStyle = cellConditions.cellStyle;
+  const cellIcon = cellConditions.cellIcon;
 
   return (
     <div
@@ -97,6 +97,8 @@ export default function Cell(
         e.preventDefault();
         onContextMenu(xIndex, yIndex, board, setBoard);
       }}
+      onKeyUp={(e) => e.preventDefault()}
+      onKeyDown={(e) => e.preventDefault()}
     >
       {cellIcon}
     </div>
