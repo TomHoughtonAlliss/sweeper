@@ -33,17 +33,32 @@ export default function Difficulty(
     >
       <button
         type="button"
+        style={{
+          display: "flex",
+          alignSelf: "center",
+          margin: "1rem auto",
+        }}
       >Custom</button>
 
       <button
         type="button"
         onClick={() => changeDimensions(8, 8, 10, setWidth, setHeight, setNumberOfBombs)}
+        style={{
+          display: "flex",
+          alignSelf: "center",
+          margin: "1rem auto",
+        }}
       >
         Beginner
       </button>
 
       <button
         type="button"
+        style={{
+          display: "flex",
+          alignSelf: "center",
+          margin: "1rem auto",
+        }}
         onClick={() => changeDimensions(16, 16, 40, setWidth, setHeight, setNumberOfBombs)}
       >
         Intermediate
@@ -52,6 +67,11 @@ export default function Difficulty(
       <button
         type="button"
         onClick={() => changeDimensions(16, 30, 40, setWidth, setHeight, setNumberOfBombs)}
+        style={{
+          display: "flex",
+          alignSelf: "center",
+          margin: "1rem auto",
+        }}
       >
         Expert
       </button>

@@ -20,22 +20,25 @@ export default function Game() {
 
   return (
     <div>
-      <Difficulty
-        setWidth={setWidth}
-        setHeight={setHeight}
-        setNumberOfBombs={setNumberOfBombs}
-      />
-      <button
-        type="button"
-        onClick={handlePlayClick}
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignSelf: "center",
-          margin: "1rem auto",
-        }}
-      >
-        Play</button>
+      <div>
+        <Difficulty
+          setWidth={setWidth}
+          setHeight={setHeight}
+          setNumberOfBombs={setNumberOfBombs}
+        />
+        <button
+          type="button"
+          onClick={handlePlayClick}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignSelf: "center",
+            margin: "1rem auto",
+          }}
+        >
+          Play
+        </button>
+      </div>
       <Board
         key={key}
         width={width}
