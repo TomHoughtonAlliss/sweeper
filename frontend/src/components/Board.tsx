@@ -8,6 +8,8 @@ function leftClickCell(
   y: number,
   board: CellType[][],
   setBoard: (board: CellType[][]) => void,
+  setGameWon: (won: boolean) => void,
+  setGameLost: (lost: boolean) => void,
 ) {
   let newBoard: CellType[][];
 
@@ -36,7 +38,7 @@ function leftClickCell(
         if ((0 <= m && m < board[0].length) && (0 <= n && n < board.length)) {
           if (!board[n][m].revealed) {
             console.log(m, n);
-            leftClickCell(m, n, newBoard, setBoard);
+            leftClickCell(m, n, newBoard, setBoard, setGameWon, setGameLost);
           }
         }
       }
@@ -116,7 +118,7 @@ export default function Board(
                       setBoard={setBoard}
                       gameWon={gameWon}
                       gameLost={gameLost}
-                      onClick={() => leftClickCell(i, j, board, setBoard)}
+                      onClick={() => leftClickCell(i, j, board, setBoard, setGameWon, setGameLost)}
                       onContextMenu={() => rightClickCell(i, j, board, setBoard)}
                     />
                   )
