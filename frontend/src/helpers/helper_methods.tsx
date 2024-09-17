@@ -135,7 +135,7 @@ export function instantiateBoard(
   return board;
 }
 
-export function gameWon(board: CellType[][]): boolean {
+export function checkIfGameWon(board: CellType[][]): boolean {
   for (let j = 0; j < board.length; j++) {
     const row = board[j];
     for (let i = 0; i < row.length; i++) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { instantiateBoard, revealAllMines } from "../helpers/helper_methods";
+import { instantiateBoard, revealAllMines, checkIfGameWon } from "../helpers/helper_methods";
 import type { CellType } from "../helpers/helper_methods";
 import Cell from "./Cell"
 
@@ -47,6 +47,11 @@ function leftClickCell(
     }
   }
 
+  if (checkIfGameWon(board)) {
+    setGameWon(true);
+    setGameLost(false);
+  }
+
   setBoard(newBoard);
 }
 
@@ -54,11 +59,18 @@ function rightClickCell(
   xIndex: number,
   yIndex: number,
   board: CellType[][],
-  setBoard: (board: CellType[][]) => void,) {
-  console.log("right click cell");
+  setBoard: (board: CellType[][]) => void,
+  setGameWon: (won: boolean) => void,
+  setGameLost: (lost: boolean) => void,
+) {
   const newBoard = [...board];
 
   newBoard[yIndex][xIndex].isFlagged = !newBoard[yIndex][xIndex].isFlagged;
+
+  if (checkIfGameWon(board)) {
+    setGameWon(true);
+    setGameLost(false);
+  }
 
   setBoard(newBoard);
 }
@@ -121,7 +133,7 @@ export default function Board(
                       gameWon={gameWon}
                       gameLost={gameLost}
                       onClick={() => leftClickCell(i, j, board, setBoard, setGameWon, setGameLost)}
-                      onContextMenu={() => rightClickCell(i, j, board, setBoard)}
+                      onContextMenu={() => rightClickCell(i, j, board, setBoard, setGameWon, setGameLost)}
                     />
                   )
                 })
