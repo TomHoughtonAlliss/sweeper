@@ -11,7 +11,7 @@ export type CellType = {
   adjacentMines: number;
 };
 
-function revealAllMines(board: CellType[][]): CellType[][] {
+export function revealAllMines(board: CellType[][]): CellType[][] {
   const newBoard: CellType[][] = [];
   for (let j = 0; j < board.length; j++) {
     const row: CellType[] = board[j];
