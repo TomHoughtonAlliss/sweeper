@@ -37,7 +37,15 @@ const Timer = forwardRef((props, ref) => {
     }
 
     return (
-        <div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            border: "solid 1px",
+            backgroundColor: "#CDCDCD"
+          }}
+        >
             {formatTime(time)}
         </div>
     )

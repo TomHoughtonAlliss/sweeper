@@ -59,15 +59,9 @@ export default function Game() {
         timerRef={timerRef}
       />
       <div>
-
-        <Timer ref={timerRef}/>
-
-      </div>
-      <div>
-        {gameWon ? <span>true</span> : <span>false</span>}
-      </div>
-      <div>
-        {gameLost ? <span>true</span> : <span>false</span>}
+        <Timer 
+          ref={timerRef}
+        />
       </div>
     </div>
   );
