@@ -15,6 +15,8 @@ function leftClickCell(
 
   if (board[y][x].isMine) {
     newBoard = revealAllMines(board)
+    setGameLost(true)
+    setGameWon(false)
   } else {
     newBoard = [...board];
     const coordsToCheck: number[][] = [
