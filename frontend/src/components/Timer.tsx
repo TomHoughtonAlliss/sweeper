@@ -33,7 +33,7 @@ const Timer = forwardRef((props, ref) => {
     const formatTime = (time: number) => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
-        return `${minutes}:${seconds}`
+        return `${minutes}:${seconds > 10 ? seconds : `0${seconds}`}`
     }
 
     return (

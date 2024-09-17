@@ -10,6 +10,11 @@ function leftClickCell(
   setBoard: (board: CellType[][]) => void,
   setGameWon: (won: boolean) => void,
   setGameLost: (lost: boolean) => void,
+  timerRef: React.RefObject<{
+    start: () => void;
+    stop: () => void;
+    reset: () => void;
+  }>
 ) {
   let newBoard: CellType[][];
 
@@ -17,6 +22,9 @@ function leftClickCell(
     newBoard = revealAllMines(board)
     setGameLost(true)
     setGameWon(false)
+    if (timerRef.current) {
+      timerRef.current.stop()
+    }      
   } else {
     newBoard = [...board];
     const coordsToCheck: number[][] = [
@@ -40,7 +48,7 @@ function leftClickCell(
         if ((0 <= m && m < board[0].length) && (0 <= n && n < board.length)) {
           if (!board[n][m].revealed) {
             console.log(m, n);
-            leftClickCell(m, n, newBoard, setBoard, setGameWon, setGameLost);
+            leftClickCell(m, n, newBoard, setBoard, setGameWon, setGameLost, timerRef);
           }
         }
       }
@@ -50,6 +58,9 @@ function leftClickCell(
   if (checkIfGameWon(board)) {
     setGameWon(true);
     setGameLost(false);
+    if (timerRef.current) {
+      timerRef.current.stop()
+    }
   }
 
   setBoard(newBoard);
@@ -62,6 +73,11 @@ function rightClickCell(
   setBoard: (board: CellType[][]) => void,
   setGameWon: (won: boolean) => void,
   setGameLost: (lost: boolean) => void,
+  timerRef: React.RefObject<{
+    start: () => void;
+    stop: () => void;
+    reset: () => void;
+  }>
 ) {
   const newBoard = [...board];
 
@@ -70,6 +86,9 @@ function rightClickCell(
   if (checkIfGameWon(board)) {
     setGameWon(true);
     setGameLost(false);
+    if (timerRef.current) {
+      timerRef.current.stop()
+    }
   }
 
   setBoard(newBoard);
@@ -84,6 +103,7 @@ export default function Board(
     gameLost,
     setGameWon,
     setGameLost,
+    timerRef
   }: {
     width: number;
     height: number;
@@ -92,6 +112,11 @@ export default function Board(
     gameLost: boolean;
     setGameWon: (gameWon: boolean) => void;
     setGameLost: (gameLost: boolean) => void;
+    timerRef: React.RefObject<{
+      start: () => void;
+      stop: () => void;
+      reset: () => void;
+  }>
   }) {
 
   const [board, setBoard] = useState<CellType[][]>([]);
@@ -132,8 +157,8 @@ export default function Board(
                       setBoard={setBoard}
                       gameWon={gameWon}
                       gameLost={gameLost}
-                      onClick={() => leftClickCell(i, j, board, setBoard, setGameWon, setGameLost)}
-                      onContextMenu={() => rightClickCell(i, j, board, setBoard, setGameWon, setGameLost)}
+                      onClick={() => leftClickCell(i, j, board, setBoard, setGameWon, setGameLost, timerRef)}
+                      onContextMenu={() => rightClickCell(i, j, board, setBoard, setGameWon, setGameLost, timerRef)}
                     />
                   )
                 })

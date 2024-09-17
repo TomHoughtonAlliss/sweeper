@@ -20,6 +20,7 @@ export default function Game() {
     setGameWon(false);
     setGameLost(false);
     if (timerRef.current) {
+      timerRef.current.reset();
       timerRef.current.start();
     }
   }
@@ -55,6 +56,7 @@ export default function Game() {
         gameLost={gameLost}
         setGameWon={setGameWon}
         setGameLost={setGameLost}
+        timerRef={timerRef}
       />
       <div>
 
