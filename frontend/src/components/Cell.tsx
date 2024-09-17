@@ -41,7 +41,7 @@ function getStyleAndIcon(cell: CellType, gameWon: boolean) {
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: gameWon ? "green" : "DCDCDC",
+      backgroundColor: gameWon ? "#c5edca" : "#DCDCDC",
       color: "red",
       fontWeight: "1000",
     }

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Board from "./Board";
 import Difficulty from "./Difficulty";
+import Timer from "./Timer";
 
 export default function Game() {
 
@@ -10,13 +11,19 @@ export default function Game() {
   const [gameWon, setGameWon] = useState<boolean>(false);
   const [gameLost, setGameLost] = useState<boolean>(false);
 
+  const timerRef = useRef<{ start: () => void; stop: () => void; reset: () => void }>(null);
+
   const [key, setKey] = useState<number>(0);
 
   const handlePlayClick = () => {
     setKey(prevKey => prevKey + 1);
     setGameWon(false);
     setGameLost(false);
+    if (timerRef.current) {
+      timerRef.current.start();
+    }
   }
+
 
   return (
     <div>
@@ -49,6 +56,11 @@ export default function Game() {
         setGameWon={setGameWon}
         setGameLost={setGameLost}
       />
+      <div>
+
+        <Timer ref={timerRef}/>
+
+      </div>
       <div>
         {gameWon ? <span>true</span> : <span>false</span>}
       </div>
