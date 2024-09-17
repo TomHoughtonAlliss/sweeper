@@ -14,6 +14,8 @@ export default function Game() {
 
   const handlePlayClick = () => {
     setKey(prevKey => prevKey + 1);
+    setGameWon(false);
+    setGameLost(false);
   }
 
   return (
@@ -44,6 +46,12 @@ export default function Game() {
         setGameWon={setGameWon}
         setGameLost={setGameLost}
       />
+      <div>
+        {gameWon ? <span>true</span> : <span>false</span>}
+      </div>
+      <div>
+        {gameLost ? <span>true</span> : <span>false</span>}
+      </div>
     </div>
   );
 }
