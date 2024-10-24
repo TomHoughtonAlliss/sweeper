@@ -53,20 +53,27 @@ export default function Game() {
           Play
         </button>
       </div>
-      <Board
-        key={key}
-        width={width}
-        height={height}
-        numberOfBombs={numberOfBombs}
-        gameWon={gameWon}
-        gameLost={gameLost}
-        setGameWon={setGameWon}
-        setGameLost={setGameLost}
-        clickCount={clickCount}
-        setClickCount={setClickCount}
-        setTimerStarted={setTimerStarted}
-        setStartTime={setStartTime}
-      />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Board
+          key={key}
+          width={width}
+          height={height}
+          numberOfBombs={numberOfBombs}
+          gameWon={gameWon}
+          gameLost={gameLost}
+          setGameWon={setGameWon}
+          setGameLost={setGameLost}
+          clickCount={clickCount}
+          setClickCount={setClickCount}
+          setTimerStarted={setTimerStarted}
+          setStartTime={setStartTime}
+        />
+      </div>
       <div>
         <Timer startTime={startTime} stopped={!timerStarted} />
       </div>
