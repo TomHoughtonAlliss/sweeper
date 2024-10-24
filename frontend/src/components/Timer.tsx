@@ -31,7 +31,7 @@ export default function Timer({
         backgroundColor: "#DCDCDC",
         fontFamily: "Consolas, monospace",
         fontSize: "2rem",
-        color: "gray",
+        color: "#808080",
       }}
     >
       {`${seconds <= 99 ? "0" : ""}${seconds <= 9 ? "0" : ""}${seconds}`}
