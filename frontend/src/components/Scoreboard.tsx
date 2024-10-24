@@ -34,39 +34,33 @@ export default function ScoreBoard() {
   const scoreBoard: string[][] = getScoreBoard();
 
   return (
-    <div style={{}}>
-      <table
-        style={{
-          marginTop: "2rem",
-          marginBottom : "2rem",
-          marginLeft: "auto",
-          marginRight: "auto",
-          textAlign: "left",
-          border: "1px solid gray",
-          backgroundColor: "#DCDCDC",
-        }}
-      >
-        <tr>
-          <th>Name</th>
-          <th>Time (seconds)</th>
-          <th>Date</th>
-        </tr>
-        {scoreBoard.map((row: string[], yIndex: number) => {
-          return (
-            <tr>
-              <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
-                {row[0]}
-              </td>
-              <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
-                {row[1]}
-              </td>
-              <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
-                {row[2]}
-              </td>
-            </tr>
-          );
-        })}
-      </table>
-    </div>
+    <table
+      style={{
+        textAlign: "left",
+        border: "1px solid gray",
+        backgroundColor: "#DCDCDC",
+      }}
+    >
+      <tr>
+        <th>Name</th>
+        <th>Time (seconds)</th>
+        <th>Date</th>
+      </tr>
+      {scoreBoard.map((row: string[], yIndex: number) => {
+        return (
+          <tr>
+            <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
+              {row[0]}
+            </td>
+            <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
+              {row[1]}
+            </td>
+            <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
+              {row[2]}
+            </td>
+          </tr>
+        );
+      })}
+    </table>
   );
 }
