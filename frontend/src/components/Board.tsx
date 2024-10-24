@@ -88,6 +88,7 @@ function rightClickCell(
   setBoard: (board: CellType[][]) => void,
   setGameWon: (won: boolean) => void,
   setGameLost: (lost: boolean) => void,
+  setTimerStarted: (on: boolean) => void,
 ) {
   const newBoard = [...board];
 
@@ -96,6 +97,7 @@ function rightClickCell(
   if (checkIfGameWon(board)) {
     setGameWon(true);
     setGameLost(false);
+    setTimerStarted(false);
   }
 
   setBoard(newBoard);
@@ -182,7 +184,8 @@ export default function Board({
                       board,
                       setBoard,
                       setGameWon,
-                      setGameLost
+                      setGameLost,
+                      setTimerStarted,
                     )
                   }
                 />
