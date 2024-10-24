@@ -29,8 +29,9 @@ export default function Timer({
         paddingLeft: "4px",
         paddingRight: "4px",
         backgroundColor: "#DCDCDC",
-        fontFamily: "monospace",
+        fontFamily: "Consolas, monospace",
         fontSize: "2rem",
+        color: "gray",
       }}
     >
       {`${seconds <= 99 ? "0" : ""}${seconds <= 9 ? "0" : ""}${seconds}`}
