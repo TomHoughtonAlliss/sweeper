@@ -54,7 +54,6 @@ function leftClickCell(
 
         if (0 <= m && m < board[0].length && 0 <= n && n < board.length) {
           if (!board[n][m].revealed) {
-            console.log(m, n);
             leftClickCell(
               m, 
               n, 
