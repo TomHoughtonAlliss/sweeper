@@ -20,6 +20,7 @@ export default function Game() {
     setKey(prevKey => prevKey + 1);
     setGameWon(false);
     setGameLost(false);
+    setStartTime(Date.now());
   }
 
   return (
