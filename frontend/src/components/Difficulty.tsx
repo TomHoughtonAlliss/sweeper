@@ -29,23 +29,13 @@ export default function Difficulty(
       style={{
         display: "flex",
         justifyContent: "center",
+        width: "100%",
       }}
     >
       <button
         type="button"
-        style={{
-          display: "flex",
-          alignSelf: "center",
-          margin: "1rem auto",
-        }}
-      >Custom</button>
-
-      <button
-        type="button"
         onClick={() => changeDimensions(8, 8, 10, setWidth, setHeight, setNumberOfBombs)}
         style={{
-          display: "flex",
-          alignSelf: "center",
           margin: "1rem auto",
         }}
       >
@@ -55,8 +45,6 @@ export default function Difficulty(
       <button
         type="button"
         style={{
-          display: "flex",
-          alignSelf: "center",
           margin: "1rem auto",
         }}
         onClick={() => changeDimensions(16, 16, 40, setWidth, setHeight, setNumberOfBombs)}
@@ -68,8 +56,6 @@ export default function Difficulty(
         type="button"
         onClick={() => changeDimensions(16, 30, 40, setWidth, setHeight, setNumberOfBombs)}
         style={{
-          display: "flex",
-          alignSelf: "center",
           margin: "1rem auto",
         }}
       >
