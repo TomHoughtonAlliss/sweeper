@@ -15,7 +15,7 @@ export default function Game() {
 
   const [key, setKey] = useState<number>(0);
 
-  const handlePlayClick = () => {
+  const handleResetClick = () => {
     setKey((prevKey) => prevKey + 1);
     setGameWon(false);
     setGameLost(false);
@@ -42,7 +42,7 @@ export default function Game() {
         </div>
         <button
           type="button"
-          onClick={handlePlayClick}
+          onClick={handleResetClick}
           style={{
             display: "flex",
             justifyContent: "center",
@@ -50,7 +50,7 @@ export default function Game() {
             margin: "1px auto",
           }}
         >
-          Play
+          Reset
         </button>
       </div>
       <div
