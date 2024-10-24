@@ -25,7 +25,7 @@ export default function Game() {
   }
 
   return (
-    <div>
+    <>
       <div>
         <Difficulty
           setWidth={setWidth}
@@ -62,6 +62,6 @@ export default function Game() {
       <div>
         <Timer startTime={startTime} stopped={!timerStarted} />
       </div>
-    </div>
+    </>
   );
 }
