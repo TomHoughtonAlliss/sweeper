@@ -21,6 +21,7 @@ export default function Game() {
     setGameWon(false);
     setGameLost(false);
     setStartTime(Date.now());
+    setTimerStarted(false);
   }
 
   return (
