@@ -34,20 +34,27 @@ export default function ScoreBoard() {
 	}, []);
 
 	const cellStyling = {
-		paddingRight: "5rem",
 		border: "1px solid gray",
+    paddingLeft: "3px",
+    borderLeft: "2px solid gray",
+    borderRight: "2px solid gray"
 	};
 
 	const headerStyling = {
-		fontWeight: "bold",
+		fontWeight: "normal",
 		fontFamily: "sans-serif",
+    fontSize: "14px",
+    padding: "5px",
+    borderLeft: "2px solid gray",
+    borderRight: "2px solid gray"
 	};
 
 	return (
 		<table
 			style={{
-				textAlign: "left",
-				border: "1px solid gray",
+				textAlign: "center",
+				border: "2px solid gray",
+        borderCollapse: "collapse",
 				backgroundColor: "#FFFFFF",
 				margin: "2rem",
 				fontFamily: "monospace",
@@ -56,7 +63,7 @@ export default function ScoreBoard() {
 			<thead>
 				<tr>
 					<th style={headerStyling}>Name</th>
-					<th style={headerStyling}>Time (seconds)</th>
+					<th style={headerStyling}>Time</th>
 					<th style={headerStyling}>Date</th>
 				</tr>
 			</thead>
