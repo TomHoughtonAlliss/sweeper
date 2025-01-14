@@ -27,7 +27,7 @@ func GetScores(c echo.Context, client *mongo.Client) error {
 
 func CreateScore(c echo.Context, client *mongo.Client) error {
 	type createScoreRequest struct {
-		Time int `json:"time"`
+		Time int    `json:"time"`
 		Name string `json:"name"`
 		Date string `json:"date"`
 	}
