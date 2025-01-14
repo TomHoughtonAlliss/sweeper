@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { useEffect, useState } from "react";
 
 type Score = {
+	id: string;
 	name: string;
 	time: number;
 	date: string;
@@ -49,7 +50,7 @@ export default function ScoreBoard() {
 			<tbody>
 				{scores.map((row: Score, yIndex: number) => {
 					return (
-						<tr>
+						<tr key={row.id}>
 							<td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
 								{row.name}
 							</td>
