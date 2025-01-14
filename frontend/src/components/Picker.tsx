@@ -5,10 +5,12 @@ export default function Picker(
 ) {
   return (
     <div className="tile">
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <button
         type="button"
+        style={{ width: '100%' }}
         onClick={() => {
-          setter((value + 1 + 26) % 26);
+        setter((value - 1 + 26) % 26);
         }}
       >
         ▲
@@ -16,19 +18,23 @@ export default function Picker(
       <div
         className="letter"
         style={{
-          fontSize: "15rem",
+        fontSize: "15rem",
+        width: '100%',
+        textAlign: 'center'
         }}
       >
         {chars[value]}
       </div>
       <button
         type="button"
+        style={{ width: '100%' }}
         onClick={() => {
-          setter((value - 1 + 26) % 26);
+        setter((value + 1 + 26) % 26);
         }}
       >
         ▼
       </button>
+      </div>
     </div>
   );
 }
