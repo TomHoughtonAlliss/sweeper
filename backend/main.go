@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/sweeper/routes"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -19,6 +20,12 @@ func main() {
 
 	e := echo.New()
 	e.Debug = true
+	
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"http://localhost:8000", "http://localhost:3000"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.PATCH},
+	}))
 
 	// CONNECT TO DATABASE
 	connectionString := os.Getenv("MONGO_STRING")
