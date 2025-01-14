@@ -8,7 +8,7 @@ export default function Picker(
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <button
         type="button"
-        style={{ width: '100%' }}
+        style={{ width: '95%' }}
         onClick={() => {
         setter((value - 1 + 26) % 26);
         }}
@@ -27,7 +27,7 @@ export default function Picker(
       </div>
       <button
         type="button"
-        style={{ width: '100%' }}
+        style={{ width: '95%' }}
         onClick={() => {
         setter((value + 1 + 26) % 26);
         }}
