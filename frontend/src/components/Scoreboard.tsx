@@ -15,7 +15,9 @@ async function getScores(): Promise<Score[]> {
 
 	const data = await res.json();
 
-	console.log(data);
+	const scores: Score[] = data as Score[]
+
+  scores.sort((a, b) => a.time - b.time);
 
 	return data as Score[];
 }
