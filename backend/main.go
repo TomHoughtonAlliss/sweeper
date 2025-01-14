@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/sweeper/routes"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -35,6 +36,9 @@ func main() {
 	}()
 
 	address := os.Getenv("SERVER_URL")
+
+	// REGISTER ROUTES
+	routes.ScoreRoutes(e, client)
 
 	// START ECHO SERVER
 	e.Logger.Fatal(e.Start(address))
