@@ -1,67 +1,68 @@
 import { faker } from "@faker-js/faker";
+import { useEffect, useState } from "react";
 
-function getScore(): string[] {
-  const name: string = faker.person.firstName();
-  const time: string = String(Math.floor(Math.random() * 100) + 10);
-  const date: string = "14/02/1994";
+type Score = {
+	name: string;
+	time: number;
+	date: string;
+};
 
-  const score: string[] = [name, time, date];
+async function getScores(): Promise<Score[]> {
+	const res = await fetch("http://localhost:8000/scores", {
+		method: "GET",
+	});
 
-  return score;
-}
+	const data = await res.json();
 
-function sortRows(rows: string[][]): string[][] {
-  rows.sort((first: string[], second: string[]) => {
-    return Number(first[1]) - Number(second[1]);
-  });
+	console.log(data);
 
-  return rows;
-}
-
-function getScoreBoard(): string[][] {
-  let scores: string[][] = [];
-
-  for (let i = 0; i < 10; i++) {
-    scores.push(getScore());
-  }
-
-  scores = sortRows(scores);
-
-  return scores;
+	return data as Score[];
 }
 
 export default function ScoreBoard() {
-  const scoreBoard: string[][] = getScoreBoard();
+	const [scores, setScores] = useState<Score[]>([]);
 
-  return (
-    <table
-      style={{
-        textAlign: "left",
-        border: "1px solid gray",
-        backgroundColor: "#DCDCDC",
-        margin: "2rem",
-      }}
-    >
-      <tr>
-        <th>Name</th>
-        <th>Time (seconds)</th>
-        <th>Date</th>
-      </tr>
-      {scoreBoard.map((row: string[], yIndex: number) => {
-        return (
-          <tr>
-            <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
-              {row[0]}
-            </td>
-            <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
-              {row[1]}
-            </td>
-            <td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
-              {row[2]}
-            </td>
-          </tr>
-        );
-      })}
-    </table>
-  );
+	useEffect(() => {
+		async function fetchScores() {
+			const scores = await getScores();
+			setScores(scores);
+		}
+		fetchScores();
+	}, []);
+
+	return (
+		<table
+			style={{
+				textAlign: "left",
+				border: "1px solid gray",
+				backgroundColor: "#DCDCDC",
+				margin: "2rem",
+			}}
+		>
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Time (seconds)</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				{scores.map((row: Score, yIndex: number) => {
+					return (
+						<tr>
+							<td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
+								{row.name}
+							</td>
+							<td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
+								{row.time}
+							</td>
+							<td style={{ paddingRight: "10rem", border: "1px solid gray" }}>
+								{row.date}
+							</td>
+						</tr>
+					);
+				})}
+			</tbody>
+		</table>
+	);
 }
