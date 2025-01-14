@@ -12,4 +12,8 @@ func ScoreRoutes(e *echo.Echo, client *mongo.Client) {
 	score.GET("", func(c echo.Context) error {
         return controllers.GetScores(c, client)
     })
+
+	score.POST("", func(c echo.Context) error {
+		return controllers.CreateScore(c, client)
+	})
 }
