@@ -26,25 +26,14 @@ func GetScores(c echo.Context, client *mongo.Client) error {
 }
 
 func CreateScore(c echo.Context, client *mongo.Client) error {
-	type createScoreRequest struct {
-		Time int    `json:"time"`
-		Name string `json:"name"`
-		Date string `json:"date"`
-	}
-
-	var req createScoreRequest
-	if err := c.Bind(&req); err != nil {
-		return err
-	}
-
 	col := client.Database("Minesweeper").Collection("Score")
 
-	score := models.ScoreModel{
-		ID: primitive.NewObjectID(),
-	}
+	var score models.ScoreModel
 	if err := c.Bind(&score); err != nil {
 		return err
 	}
+
+	score.ID = primitive.NewObjectID()
 
 	_, err := col.InsertOne(c.Request().Context(), score)
 	if err != nil {
