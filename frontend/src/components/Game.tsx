@@ -4,7 +4,7 @@ import Difficulty from "./Difficulty";
 import Timer from "./Timer";
 import postScore from "../requests/scores";
 
-export default function Game() {
+export default function Game({ name }: { name: string }) {
 	const [width, setWidth] = useState<number>(10);
 	const [height, setHeight] = useState<number>(10);
 	const [numberOfBombs, setNumberOfBombs] = useState<number>(10);
@@ -27,7 +27,7 @@ export default function Game() {
 
 	useEffect(() => {
 		if (gameWon) {
-			postScore(Math.floor((Date.now() - startTime) / 1000));
+			postScore(Math.floor((Date.now() - startTime) / 1000), name);
 		}
 	}, [gameWon, startTime]);
 
