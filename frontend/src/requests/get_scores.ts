@@ -7,5 +7,5 @@ const fetchScores = async () => {
 };
 
 export const useScores = () => {
-    return useQuery('scores', fetchScores);
+    return useQuery(['scores'], fetchScores);
 };
