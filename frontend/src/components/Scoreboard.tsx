@@ -33,7 +33,8 @@ export default function ScoreBoard() {
 		fontSize: "14px",
 		padding: "5px",
 		borderLeft: "2px solid gray",
-		borderRight: "2px solid gray"
+		borderRight: "2px solid gray",
+		borderBottom: "2px solid gray"
 	};
 
 	return (
