@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Board from "./Board";
 import Difficulty from "./Difficulty";
 import Timer from "./Timer";
-import postScore from "../requests/scores";
+import postScore from "../requests/post_scores";
 
 export default function Game({ name }: { name: string }) {
 	const [width, setWidth] = useState<number>(10);
