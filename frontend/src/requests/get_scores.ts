@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 type Score = {
@@ -15,5 +15,5 @@ const fetchScores = async () => {
 };
 
 export const useScores = () => {
-    return useQuery(['scores'], fetchScores);
+	return useQuery({ queryKey: ['scores'], queryFn: fetchScores });
 };
