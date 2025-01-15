@@ -35,18 +35,18 @@ export default function ScoreBoard() {
 
 	const cellStyling = {
 		border: "1px solid gray",
-    paddingLeft: "3px",
-    borderLeft: "2px solid gray",
-    borderRight: "2px solid gray"
+		paddingLeft: "3px",
+		borderLeft: "2px solid gray",
+		borderRight: "2px solid gray"
 	};
 
 	const headerStyling = {
 		fontWeight: "normal",
 		fontFamily: "sans-serif",
-    fontSize: "14px",
-    padding: "5px",
-    borderLeft: "2px solid gray",
-    borderRight: "2px solid gray"
+		fontSize: "14px",
+		padding: "5px",
+		borderLeft: "2px solid gray",
+		borderRight: "2px solid gray"
 	};
 
 	return (
@@ -54,7 +54,7 @@ export default function ScoreBoard() {
 			style={{
 				textAlign: "center",
 				border: "2px solid gray",
-        borderCollapse: "collapse",
+				borderCollapse: "collapse",
 				backgroundColor: "#FFFFFF",
 				margin: "2rem",
 				fontFamily: "monospace",
