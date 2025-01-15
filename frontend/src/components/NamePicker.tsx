@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Picker from "./Picker";
 
-
+const chars = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i));
 
 export default function NamePicker({ setter }: { setter: (name: string) => void }) {
   const [a, setA] = useState(0);
@@ -9,7 +9,7 @@ export default function NamePicker({ setter }: { setter: (name: string) => void 
   const [c, setC] = useState(0);
 
   useEffect(() => {
-    setter(`${a}${b}${c}`);
+    setter(`${chars[a]}${chars[b]}${chars[c]}`);
   }, [a, b, c])
 
   return (
