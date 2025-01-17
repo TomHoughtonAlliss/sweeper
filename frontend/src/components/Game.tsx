@@ -5,15 +5,37 @@ import Timer from "./Timer";
 import postScore from "../requests/post_scores";
 import { useQueryClient } from "@tanstack/react-query";
 
+export type GameConfig = {
+	width: number,
+	height: number,
+	numberOfBombs: number,
+	gameWon: boolean,
+	gameLost: boolean,
+	clickCount: number,
+}
+
+export type TimerConfig = {
+	startTime: number,
+	timerStarted: boolean,
+}
+
 export default function Game({ name }: { name: string }) {
-	const [width, setWidth] = useState<number>(10);
-	const [height, setHeight] = useState<number>(10);
-	const [numberOfBombs, setNumberOfBombs] = useState<number>(10);
-	const [gameWon, setGameWon] = useState<boolean>(false);
-	const [gameLost, setGameLost] = useState<boolean>(false);
-	const [startTime, setStartTime] = useState<number>(Date.now());
-	const [timerStarted, setTimerStarted] = useState<boolean>(false);
-	const [clickCount, setClickCount] = useState<number>(0);
+	const defaultConfig = {
+		width: 10,
+		height: 10,
+		numberOfBombs: 10,
+		gameWon: false,
+		gameLost: false,
+		clickCount: 0,
+	}
+
+	const defaultTimer = {
+		startTime: Date.now(),
+		timerStarted: false,
+	}
+
+	const [config, setConfig] = useState(defaultConfig);
+	const [timer, setTimer] = useState(defaultTimer);
 
 	const [key, setKey] = useState<number>(0);
 
@@ -21,19 +43,24 @@ export default function Game({ name }: { name: string }) {
 
 	const handleResetClick = () => {
 		setKey((prevKey) => prevKey + 1);
-		setGameWon(false);
-		setGameLost(false);
-		setStartTime(Date.now());
-		setTimerStarted(false);
-		setClickCount(0);
+		setConfig({
+			...config,
+			gameWon: false,
+			gameLost: false,
+			clickCount: 0,
+		});
+
+		setTimer({
+			...defaultTimer,
+		});
 	};
 
 	useEffect(() => {
-		if (gameWon) {
-			queryClient.invalidateQueries({queryKey: ["scores"]});
-			postScore(Math.floor((Date.now() - startTime) / 1000), name);
+		if (config.gameWon) {
+			queryClient.invalidateQueries({ queryKey: ["scores"] });
+			postScore(Math.floor((Date.now() - timer.startTime) / 1000), name);
 		}
-	}, [gameWon, startTime]);
+	}, [config.gameWon, timer.startTime]);
 
 	return (
 		<>
@@ -46,9 +73,8 @@ export default function Game({ name }: { name: string }) {
 					}}
 				>
 					<Difficulty
-						setWidth={setWidth}
-						setHeight={setHeight}
-						setNumberOfBombs={setNumberOfBombs}
+						config={config}
+						setConfig={setConfig}
 					/>
 				</div>
 				<button
@@ -72,21 +98,14 @@ export default function Game({ name }: { name: string }) {
 			>
 				<Board
 					key={key}
-					width={width}
-					height={height}
-					numberOfBombs={numberOfBombs}
-					gameWon={gameWon}
-					gameLost={gameLost}
-					setGameWon={setGameWon}
-					setGameLost={setGameLost}
-					clickCount={clickCount}
-					setClickCount={setClickCount}
-					setTimerStarted={setTimerStarted}
-					setStartTime={setStartTime}
+					config={config}
+					setConfig={setConfig}
+					timer={timer}
+					setTimer={setTimer}
 				/>
 			</div>
 			<div>
-				<Timer startTime={startTime} stopped={!timerStarted} />
+				<Timer startTime={timer.startTime} stopped={!timer.timerStarted} />
 			</div>
 		</>
 	);

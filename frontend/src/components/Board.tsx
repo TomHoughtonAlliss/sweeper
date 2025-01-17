@@ -6,33 +6,45 @@ import {
 } from "../helpers/helper_methods";
 import type { CellType } from "../helpers/helper_methods";
 import Cell from "./Cell";
+import { GameConfig, TimerConfig } from "./Game";
 
 function leftClickCell(
   x: number,
   y: number,
   board: CellType[][],
   setBoard: (board: CellType[][]) => void,
-  setGameWon: (won: boolean) => void,
-  setGameLost: (lost: boolean) => void,
-  clickCount: number,
-  setClickCount: (count: number) => void,
-  setTimerStarted: (on: boolean) => void,
-  setStartTime: (time: number) => void,
+  config: GameConfig,
+  setConfig: (c: GameConfig) => void,
+  timer: TimerConfig,
+  setTimer: (c: TimerConfig) => void,
 ) {
-  if (clickCount === 0) {
-    setClickCount(1);
-    setStartTime(Date.now());
-    setTimerStarted(true);
+  if (config.clickCount === 0) {
+    setConfig({
+      ...config,
+      clickCount: 1,
+    });
+
+    setTimer({
+      startTime: Date.now(),
+      timerStarted: true,
+    });
   }
 
   let newBoard: CellType[][];
 
   if (board[y][x].isMine) {
     newBoard = revealAllMines(board);
-    setGameLost(true);
-    setGameWon(false);
-    setTimerStarted(false);
-    setClickCount(0);
+    setConfig({
+      ...config,
+      gameLost: true,
+      gameWon: false,
+      clickCount: 0,
+    })
+
+    setTimer({
+      ...timer,
+      timerStarted: false,
+    });
   } else {
     newBoard = [...board];
     const coordsToCheck: number[][] = [
@@ -59,12 +71,10 @@ function leftClickCell(
               n, 
               newBoard, 
               setBoard, 
-              setGameWon, 
-              setGameLost,
-              clickCount,
-              setClickCount,
-              setTimerStarted,
-              setStartTime,
+              config,
+              setConfig,
+              timer,
+              setTimer,
             );
           }
         }
@@ -73,10 +83,18 @@ function leftClickCell(
   }
 
   if (checkIfGameWon(board)) {
-    setGameWon(true);
-    setGameLost(false);
-    setTimerStarted(false);
-    setClickCount(0);
+    setConfig({
+      ...config,
+      gameWon: true,
+      gameLost: false,
+      clickCount: 0,
+    });
+
+    setTimer({
+      ...timer,
+      timerStarted: false,
+    });
+
   }
 
   setBoard(newBoard);
@@ -87,56 +105,49 @@ function rightClickCell(
   yIndex: number,
   board: CellType[][],
   setBoard: (board: CellType[][]) => void,
-  setGameWon: (won: boolean) => void,
-  setGameLost: (lost: boolean) => void,
-  setTimerStarted: (on: boolean) => void,
-  setClickCount: (count: number) => void,
+  config: GameConfig,
+  setConfig: (c: GameConfig) => void,
+  timer: TimerConfig,
+  setTimer: (c: TimerConfig) => void,
 ) {
   const newBoard = [...board];
 
   newBoard[yIndex][xIndex].isFlagged = !newBoard[yIndex][xIndex].isFlagged;
 
   if (checkIfGameWon(board)) {
-    setGameWon(true);
-    setGameLost(false);
-    setTimerStarted(false);
-    setClickCount(0);
+    setConfig({
+      ...config,
+      gameWon: true,
+      gameLost: true,
+      clickCount: 0,
+    });
+
+    setTimer({
+      ...timer,
+      timerStarted: false,
+    });
   }
 
   setBoard(newBoard);
 }
 
 export default function Board({
-  width,
-  height,
-  numberOfBombs,
-  gameWon,
-  gameLost,
-  setGameWon,
-  setGameLost,
-  clickCount,
-  setClickCount,
-  setTimerStarted,
-  setStartTime,
+  config,
+  setConfig,
+  timer,
+  setTimer,
 }: {
-  width: number;
-  height: number;
-  numberOfBombs: number;
-  gameWon: boolean;
-  gameLost: boolean;
-  setGameWon: (gameWon: boolean) => void;
-  setGameLost: (gameLost: boolean) => void;
-  clickCount: number;
-  setClickCount: (count: number) => void;
-  setTimerStarted: (on: boolean) => void;
-  setStartTime: (time: number) => void;
+  config: GameConfig,
+  setConfig: (c: GameConfig) => void,
+  timer: TimerConfig,
+  setTimer: (c: TimerConfig) => void,
 }) {
   const [board, setBoard] = useState<CellType[][]>([]);
 
   useEffect(() => {
-    const initialBoard = instantiateBoard(width, height, numberOfBombs);
+    const initialBoard = instantiateBoard(config);
     setBoard(initialBoard);
-  }, [width, height, numberOfBombs]);
+  }, [config.width, config.height, config.numberOfBombs]);
 
   return (
     <div
@@ -164,20 +175,18 @@ export default function Board({
                   yIndex={j}
                   board={board}
                   setBoard={setBoard}
-                  gameWon={gameWon}
-                  gameLost={gameLost}
+                  gameWon={config.gameWon}
+                  gameLost={config.gameLost}
                   onClick={() =>
                     leftClickCell(
                       i,
                       j,
                       board,
                       setBoard,
-                      setGameWon,
-                      setGameLost,
-                      clickCount,
-                      setClickCount,
-                      setTimerStarted,
-                      setStartTime,
+                      config,
+                      setConfig,
+                      timer,
+                      setTimer,
                     )
                   }
                   onContextMenu={() =>
@@ -186,10 +195,10 @@ export default function Board({
                       j,
                       board,
                       setBoard,
-                      setGameWon,
-                      setGameLost,
-                      setTimerStarted,
-                      setClickCount,
+                      config,
+                      setConfig,
+                      timer,
+                      setTimer,
                     )
                   }
                 />

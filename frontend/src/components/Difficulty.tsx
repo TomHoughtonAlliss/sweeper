@@ -1,13 +1,13 @@
+import { GameConfig } from "./Game";
+
 
 export default function Difficulty(
   {
-    setWidth,
-    setHeight,
-    setNumberOfBombs,
+    config,
+    setConfig,
   }: {
-    setWidth: (width: number) => void;
-    setHeight: (height: number) => void;
-    setNumberOfBombs: (numberOfBombs: number) => void;
+    config: GameConfig,
+    setConfig: (config: GameConfig) => void,
   }
 ) {
 
@@ -15,13 +15,15 @@ export default function Difficulty(
     width: number,
     height: number,
     numberOfBombs: number,
-    setWidth: (width: number) => void,
-    setHeight: (height: number) => void,
-    setNumberOfBombs: (numberOfBombs: number) => void,
+    config: GameConfig,
+    setConfig: (config: GameConfig) => void,
   ) {
-    setWidth(width);
-    setHeight(height);
-    setNumberOfBombs(numberOfBombs);
+    setConfig({
+      ...config,
+      width: width,
+      height: height,
+      numberOfBombs: numberOfBombs,
+    });
   }
 
   return (
@@ -34,7 +36,7 @@ export default function Difficulty(
     >
       <button
         type="button"
-        onClick={() => changeDimensions(8, 8, 10, setWidth, setHeight, setNumberOfBombs)}
+        onClick={() => changeDimensions(8, 8, 10, config, setConfig)}
         style={{
           margin: "2rem auto",
           marginRight: "10px",
@@ -49,14 +51,14 @@ export default function Difficulty(
           margin: "2rem auto",
           marginRight: "10px",
         }}
-        onClick={() => changeDimensions(16, 16, 40, setWidth, setHeight, setNumberOfBombs)}
+        onClick={() => changeDimensions(16, 16, 40, config, setConfig)}
       >
         Intermediate
       </button>
 
       <button
         type="button"
-        onClick={() => changeDimensions(16, 30, 40, setWidth, setHeight, setNumberOfBombs)}
+        onClick={() => changeDimensions(16, 30, 40, config, setConfig)}
         style={{
           margin: "2rem auto",
           marginRight: "10px",

@@ -1,3 +1,5 @@
+import { GameConfig } from "../components/Game";
+
 export function getRandomInt(max: number): number {
 	const r = Math.floor(Math.random() * max);
 
@@ -88,31 +90,29 @@ export function calculateBoardAdjacentMines(board: CellType[][]): CellType[][] {
 }
 
 export function instantiateBoard(
-	width: number,
-	height: number,
-	bombs: number,
+	config: GameConfig,
 ): CellType[][] {
 	let board: CellType[][] = [];
 	const bombCoords: number[][] = [];
 
-	for (let i = 0; i < bombs; i++) {
-		let randX = getRandomInt(width);
-		let randY = getRandomInt(height);
+	for (let i = 0; i < config.numberOfBombs; i++) {
+		let randX = getRandomInt(config.width);
+		let randY = getRandomInt(config.height);
 
 		const cellContained = (cell: number[]) =>
 			cell[0] === randX && cell[1] === randY;
 
 		while (bombCoords.some(cellContained)) {
-			randX = getRandomInt(width);
-			randY = getRandomInt(height);
+			randX = getRandomInt(config.width);
+			randY = getRandomInt(config.height);
 		}
 
 		bombCoords.push([randX, randY]);
 	}
 
-	for (let j = 0; j < height; j++) {
+	for (let j = 0; j < config.height; j++) {
 		const row: CellType[] = [];
-		for (let i = 0; i < width; i++) {
+		for (let i = 0; i < config.width; i++) {
 			const cell: CellType = {
 				revealed: false,
 				isMine: 0,
