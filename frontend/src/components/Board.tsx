@@ -8,6 +8,56 @@ import type { CellType } from "../helpers/helper_methods";
 import Cell from "./Cell";
 import { GameConfig, TimerConfig } from "./Game";
 
+function win(
+  {
+    config,
+    setConfig,
+    timer,
+    setTimer,
+  }: {
+    config: GameConfig,
+    setConfig: (c: GameConfig) => void,
+    timer: TimerConfig,
+    setTimer: (c: TimerConfig) => void,
+  }) {
+  setConfig({
+    ...config,
+    gameWon: true,
+    gameLost: false,
+    clickCount: 0,
+  });
+
+  setTimer({
+    ...timer,
+    timerStarted: false,
+  });
+}
+
+function lose(
+  {
+    config,
+    setConfig,
+    timer,
+    setTimer,
+  }: {
+    config: GameConfig,
+    setConfig: (c: GameConfig) => void,
+    timer: TimerConfig,
+    setTimer: (c: TimerConfig) => void,
+  }) {
+  setConfig({
+    ...config,
+    gameWon: false,
+    gameLost: true,
+    clickCount: 0,
+  });
+
+  setTimer({
+    ...timer,
+    timerStarted: false,
+  });
+}
+
 function leftClickCell(
   x: number,
   y: number,
@@ -34,16 +84,11 @@ function leftClickCell(
 
   if (board[y][x].isMine) {
     newBoard = revealAllMines(board);
-    setConfig({
-      ...config,
-      gameLost: true,
-      gameWon: false,
-      clickCount: 0,
-    })
-
-    setTimer({
-      ...timer,
-      timerStarted: false,
+    lose({
+      config,
+      setConfig,
+      timer,
+      setTimer,
     });
   } else {
     newBoard = [...board];
@@ -67,10 +112,10 @@ function leftClickCell(
         if (0 <= m && m < board[0].length && 0 <= n && n < board.length) {
           if (!board[n][m].revealed) {
             leftClickCell(
-              m, 
-              n, 
-              newBoard, 
-              setBoard, 
+              m,
+              n,
+              newBoard,
+              setBoard,
               config,
               setConfig,
               timer,
@@ -83,18 +128,12 @@ function leftClickCell(
   }
 
   if (checkIfGameWon(board)) {
-    setConfig({
-      ...config,
-      gameWon: true,
-      gameLost: false,
-      clickCount: 0,
-    });
-
-    setTimer({
-      ...timer,
-      timerStarted: false,
-    });
-
+    win({
+      config,
+      setConfig,
+      timer,
+      setTimer,
+    })
   }
 
   setBoard(newBoard);
@@ -115,17 +154,12 @@ function rightClickCell(
   newBoard[yIndex][xIndex].isFlagged = !newBoard[yIndex][xIndex].isFlagged;
 
   if (checkIfGameWon(board)) {
-    setConfig({
-      ...config,
-      gameWon: true,
-      gameLost: true,
-      clickCount: 0,
-    });
-
-    setTimer({
-      ...timer,
-      timerStarted: false,
-    });
+    win({
+      config,
+      setConfig,
+      timer,
+      setTimer,
+    })
   }
 
   setBoard(newBoard);
