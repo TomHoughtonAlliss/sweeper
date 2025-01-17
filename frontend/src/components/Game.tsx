@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Board from "./Board";
 import Difficulty from "./Difficulty";
 import Timer from "./Timer";
-import postScore from "../requests/post_scores";
 import { useQueryClient } from "@tanstack/react-query";
+import getPostScoreMutation from "../requests/post_scores";
 
 export type GameConfig = {
 	width: number,
@@ -55,10 +55,12 @@ export default function Game({ name }: { name: string }) {
 		});
 	};
 
+	const postScore = getPostScoreMutation();
+
 	useEffect(() => {
 		if (config.gameWon) {
 			queryClient.invalidateQueries({ queryKey: ["scores"] });
-			postScore(Math.floor((Date.now() - timer.startTime) / 1000), name);
+			postScore.mutate({ time: Math.floor((Date.now() - timer.startTime) / 1000), name: name });
 		}
 	}, [config.gameWon, timer.startTime]);
 

@@ -42,3 +42,14 @@ func CreateScore(c echo.Context, client *mongo.Client) error {
 
 	return c.JSON(201, score)
 }
+
+func WipeScores(c echo.Context, client *mongo.Client) error {
+	col := client.Database("Minesweeper").Collection("Score")
+
+	_, err := col.DeleteMany(c.Request().Context(), bson.D{})
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
