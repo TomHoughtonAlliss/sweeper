@@ -9,7 +9,6 @@ import (
 )
 
 func GetScores(c echo.Context, client *mongo.Client) error {
-
 	col := client.Database("Minesweeper").Collection("Score")
 
 	stuff, err := col.Find(c.Request().Context(), bson.D{})
@@ -41,6 +40,23 @@ func CreateScore(c echo.Context, client *mongo.Client) error {
 	}
 
 	return c.JSON(201, score)
+}
+
+func DeleteScore(c echo.Context, client *mongo.Client) error {
+	col := client.Database("Minesweeper").Collection("Score")
+
+	id := c.Param("score_id")
+
+	filter := bson.D{
+		{Key: "_id", Value: id},
+	}
+
+	_, err := col.DeleteOne(c.Request().Context(), filter, nil)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(200, "Sucessfully deleted score")
 }
 
 func WipeScores(c echo.Context, client *mongo.Client) error {
