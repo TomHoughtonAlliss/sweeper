@@ -1,4 +1,4 @@
-import { GameConfig } from "../components/Game";
+import type { GameConfig } from "../components/Game";
 
 export function getRandomInt(max: number): number {
 	const r = Math.floor(Math.random() * max);
