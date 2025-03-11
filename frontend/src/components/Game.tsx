@@ -62,7 +62,13 @@ export default function Game({ name }: { name: string }) {
 			queryClient.invalidateQueries({ queryKey: ["scores"] });
 			postScore.mutate({ time: Math.floor((Date.now() - timer.startTime) / 1000), name: name });
 		}
-	}, [config.gameWon, timer.startTime]);
+	}, [
+		config.gameWon,
+		timer.startTime,
+		postScore,
+		queryClient,
+		name,
+	]);
 
 	return (
 		<>

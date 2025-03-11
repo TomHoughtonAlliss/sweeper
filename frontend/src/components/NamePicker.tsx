@@ -12,7 +12,7 @@ export default function NamePicker({
 
 	useEffect(() => {
 		setter(`${chars[a]}${chars[b]}${chars[c]}`);
-	}, [a, b, c]);
+	}, [a, b, c, setter]);
 
 	return (
 		<div

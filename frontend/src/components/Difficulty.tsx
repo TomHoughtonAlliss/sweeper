@@ -1,4 +1,4 @@
-import { GameConfig } from "./Game";
+import type { GameConfig } from "./Game";
 
 
 export default function Difficulty(

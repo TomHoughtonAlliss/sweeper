@@ -6,7 +6,7 @@ import {
 } from "../helpers/helper_methods";
 import type { CellType } from "../helpers/helper_methods";
 import Cell from "./Cell";
-import { GameConfig, TimerConfig } from "./Game";
+import type { GameConfig, TimerConfig } from "./Game";
 
 function win(
   {
@@ -181,7 +181,7 @@ export default function Board({
   useEffect(() => {
     const initialBoard = instantiateBoard(config);
     setBoard(initialBoard);
-  }, [config.width, config.height, config.numberOfBombs]);
+  }, [config]);
 
   return (
     <div

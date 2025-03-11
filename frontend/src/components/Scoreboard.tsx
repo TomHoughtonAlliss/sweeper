@@ -1,5 +1,3 @@
-import { faker } from "@faker-js/faker";
-import { useEffect, useState } from "react";
 import { useScores } from "../requests/get_scores";
 
 type Score = {
