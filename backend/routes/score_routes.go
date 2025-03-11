@@ -17,6 +17,10 @@ func ScoreRoutes(e *echo.Echo, client *mongo.Client) {
 		return controllers.CreateScore(c, client)
 	})
 
+	score.DELETE("/:score-id", func(c echo.Context) error {
+		return controllers.DeleteScore(c, client)
+	})
+
 	score.DELETE("", func(c echo.Context) error {
 		return controllers.WipeScores(c, client)
 	})
